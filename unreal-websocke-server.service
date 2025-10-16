@@ -1,0 +1,36 @@
+[Unit]
+Description=Unreal Dedicated Server - WebSockeProject
+After=network.target
+
+[Service]
+# Path to your user
+User=unreal
+Group=unreal
+
+# Set working directory
+WorkingDirectory=/home/unreal/Unreal-WebSockeProject
+
+# Environment (avoid GUI dependency crashes)
+Environment=SDL_VIDEODRIVER=offscreen
+Environment=QT_QPA_PLATFORM=offscreen
+Environment=XDG_RUNTIME_DIR=/tmp
+Environment=LD_LIBRARY_PATH=/home/unreal/UnrealEngine/Engine/Binaries/Linux
+
+# Command to start the server
+ExecStart=/home/unreal/Unreal-WebSockeProject/Binaries/Linux/WebSockeProjectServer \
+    /Game/ThirdPerson/Lvl_ThirdPerson?listen -server -log
+
+# Restart automatically if it crashes or exits
+Restart=always
+RestartSec=5
+
+# Where to write logs
+StandardOutput=append:/var/log/unreal-websocke-server.log
+StandardError=append:/var/log/unreal-websocke-server.log
+
+# Resource limits (optional)
+LimitNOFILE=65535
+LimitCORE=infinity
+
+[Install]
+WantedBy=multi-user.target
